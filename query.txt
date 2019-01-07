@@ -1,0 +1,7 @@
+query samplequery {
+  employees(id: 1, designation: "Developer") {
+    id
+    designation
+    name
+  }
+}
