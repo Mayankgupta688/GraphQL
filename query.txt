@@ -1,7 +1,15 @@
-query samplequery {
-  employees(id: 1, designation: "Developer") {
-    id
-    designation
+mutation updateEmployee {
+  updateEmployee(id: 0, newDesignation: "Manager") {
     name
+    designation
+    id
+  }
+}
+
+query getEmployeeData {
+  employee(id: 0) {
+    name
+    designation
+    id
   }
 }

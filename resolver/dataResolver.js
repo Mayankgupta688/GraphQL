@@ -11,4 +11,17 @@
         return EmplArray.filter(emp => (emp.designation == args.designation && emp.id == args.id));
     }
 
+    dataResolver.updateEmployee = function(args) {
+
+        var returnEmployee = null;
+        EmplArray.forEach(emp => {
+            if(emp.id == args.id) {
+                emp.designation = args.newDesignation;
+                returnEmployee = emp;
+            }
+        });
+
+        return returnEmployee;
+    }
+
 }(module.exports));

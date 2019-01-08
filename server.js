@@ -9,7 +9,8 @@ var dataResolver = require("./resolver/dataResolver");
 var root = {
     message: () => "Hello World",
     employee: dataResolver.getEmployee,
-    employees: dataResolver.getEmployees
+    employees: dataResolver.getEmployees,
+    updateEmployee: dataResolver.updateEmployee
 }
 
 app.use("/graphql", express_graphql({
