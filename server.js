@@ -10,6 +10,7 @@ var root = {
     message: () => "Hello World",
     employee: dataResolver.getEmployee,
     employees: dataResolver.getEmployees,
+    employeeList: dataResolver.employeeList,
     updateEmployee: dataResolver.updateEmployee
 }
 
