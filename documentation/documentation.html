@@ -1,0 +1,133 @@
+<h2><strong>GraphQL in 15 Minutes</strong></h2>
+<p>The Article aims to enable user to get started with a Simple GraphQL Server and provide capability to Query for data from the Server.&nbsp;The article do not cover the deep insights of the Technology in terms of Theoratical Concepts. Theoatical concepts will be covered in details in other Document. I would expect the reader to have some theoratical background before jumping to the code.</p>
+<p>&nbsp;</p>
+<p><strong>What is GraphQL ?</strong></p>
+<p>GraphQL is a middleware which when queried sends the required data to the Client over HTTP protocol. The GraphQL server act as a middleware which fetches the data from the some backend. This backend could be anything like MongoDB or some WEB APIs. Other feature of GraphQL is that it can aggregate data from multiple sources.</p>
+<p>&nbsp;</p>
+<p>GraphQL can be summarised as:</p>
+<p>1. It acts as a middleware between Frontend and Backend Server</p>
+<p>2. Server can Aggregate the data from Multiple Resources</p>
+<p>3. User defined the data in which he is interested</p>
+<p>&nbsp;</p>
+<p>GraphQL can be divided into 2 parts:&nbsp;</p>
+<p>1. GraphQL Query Language</p>
+<p>2. GraphQL Runtime Server</p>
+<p>&nbsp;</p>
+<h2><strong>Creating GraphQL Server:</strong></h2>
+<p>We will be creating an ultra simple application to have QraphQL up and running on Node Server. Follow the specified steps to create the same.</p>
+<p><strong>1. Download &quot;Node.js&quot;</strong></p>
+<p>In the following demo, i will be creating a QraphQL server using Node.js. Therefor we need to ensure that Node is installed on the system. For information regarding how to install node, please follow the specified URL:&nbsp;</p>
+<p><a href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></p>
+<p>&nbsp;</p>
+<p><strong>2. Create &quot;package.json&quot;</strong></p>
+<p>Add &quot;package.json&quot; file to an empty project. Given below is the sample &quot;package.json&quot; file required for the application. You can copy paste the content in the&nbsp;&quot;package.json&quot; file.&nbsp;</p>
+<pre>
+{
+&nbsp; &quot;name&quot;: &quot;graphql-server&quot;,
+&nbsp; &quot;version&quot;: &quot;1.0.0&quot;,
+&nbsp; &quot;description&quot;: &quot;Sample GraphQL Server&quot;,
+&nbsp; &quot;main&quot;: &quot;server.js&quot;,
+&nbsp; &quot;scripts&quot;: {
+&nbsp; &nbsp; &quot;start&quot;: &quot;node server.js&quot;
+&nbsp; }
+}
+</pre>
+<p>&nbsp;</p>
+<p>The theoratical stuff below shall allow you to understand the concept further.&nbsp;</p>
+<p>To create a GraphQL Server using Node, following dependencies are required.</p>
+<p>&nbsp; &nbsp; 1.&nbsp;express</p>
+<p>&nbsp; &nbsp; 2.&nbsp;express-graphql</p>
+<p>&nbsp; &nbsp; 3.&nbsp;graphql</p>
+<p>&nbsp;</p>
+<p>We can download the following dependencies using the command specified:</p>
+<p><strong>npm install&nbsp;express&nbsp;express-graphql&nbsp;graphql --save-dev</strong></p>
+<p>&nbsp;</p>
+<p>Once the npm command executes, the dependencies will be install and the &quot;package.json&quot; file will be updated. The updated &quot;package.json&quot; file shall contain content similar to one specified below:</p>
+<pre>
+{
+&nbsp; &quot;name&quot;: &quot;graphql-server&quot;,
+&nbsp; &quot;version&quot;: &quot;1.0.0&quot;,
+&nbsp; &quot;description&quot;: &quot;Sample GraphQL Server&quot;,
+&nbsp; &quot;main&quot;: &quot;server.js&quot;,
+&nbsp; &quot;scripts&quot;: {
+&nbsp; &nbsp; &quot;start&quot;: &quot;node server.js&quot;
+&nbsp; },
+&nbsp; &quot;dependencies&quot;: {
+&nbsp; &nbsp; &quot;express&quot;: &quot;^4.16.4&quot;,
+&nbsp; &nbsp; &quot;express-graphql&quot;: &quot;^0.7.1&quot;,
+&nbsp; &nbsp; &quot;graphql&quot;: &quot;^14.0.2&quot;
+&nbsp; }
+}
+
+</pre>
+<p>&nbsp;</p>
+<p><strong>3. Add &quot;server.js&quot; to the Project</strong></p>
+<p>Once &quot;<strong>package.json</strong>&quot; file is available, create a new &quot;<strong>js&quot;</strong> file named &quot;<strong>server.js</strong>&quot;. Lets see further, how to add relavant code to &quot;server.js&quot; to have &quot;GraphQL&quot; server up and running.</p>
+<p>Following Libraries are required to be included in the &quot;server.js&quot;</p>
+<pre>
+var app = express();
+var express = require(&quot;express&quot;);
+var express_graphql = require(&quot;express-graphql&quot;);
+</pre>
+<p>We would then add some dummy&nbsp;Employee data&nbsp;&nbsp;</p>
+<p>GraphQL is schema based architecture, therefore we need to define the schema before making a query. So a schema info need to be added to server.js file. Given below is the code to define a GraphQL Schema.</p>
+<pre>
+var buildScheme = require(&quot;graphql&quot;).buildSchema;
+
+var schema = buildScheme(`
+&nbsp;&nbsp; &nbsp;type Employee {
+ &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;id: Int,
+ &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;name: String
+ &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;designation: String
+ &nbsp;&nbsp; }
+&nbsp;&nbsp; &nbsp;type Query {
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;employee(id: Int): Employee
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;employees(designation: String, id: Int): [Employee]
+&nbsp;&nbsp; &nbsp;}
+&nbsp;&nbsp; &nbsp;type Mutation {
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;updateEmployee(id: Int, newDesignation: String): Employee
+&nbsp;&nbsp; &nbsp;}
+&#39;)
+</pre>
+<p>&nbsp;</p>
+<p><strong>&quot;require(&quot;graphql&quot;).buildSchema&quot;</strong> provides variable that enables user to create a schema.</p>
+<p>The schema defined above can be evaluated as following:</p>
+<p>&nbsp;</p>
+<p>The schema specified above contains 3 parts:</p>
+<p>&nbsp;</p>
+<p>&nbsp; 1. We have specified an Object of type <strong>Employee</strong></p>
+<p>Here we are specifying a type &quot;<strong>Employee</strong>&quot; containing &quot;id&quot;, &quot;name&quot; and &quot;designation&quot;. This type can be further accessed while defining the <strong>Query </strong>and <strong>Mutation </strong>Types</p>
+<pre>
+type Employee {
+&nbsp;&nbsp; &nbsp;id: Int,
+&nbsp;&nbsp; &nbsp;name: String
+&nbsp;&nbsp; &nbsp;designation: String
+} &nbsp; 
+</pre>
+<p>The Employee type will contain &quot;Id&quot;, &quot;name&quot; and &quot;designation&quot;</p>
+<p>&nbsp; 2. We have defined a type&nbsp;<strong>Query , </strong>which defines the signature of Queries that can be made to GraphQL server.</p>
+<p>The signature specified here represents the following query that can be made to the server.</p>
+<p>User can query Employee Object and return a Single Employee with Specified Id.</p>
+<p>User can also query server for Employee&nbsp;data containing Designation and Employee Array is returned.</p>
+<pre>
+type Query {
+&nbsp;&nbsp; &nbsp;employee(id: Int): Employee
+&nbsp;&nbsp; &nbsp;employees(designation: String): [Employee]
+}
+</pre>
+<p>3. For each Query Type Defined, we need a Resolver.</p>
+<p>Resolver specifies the logic behind what data would be returned when the Query is made. So we need to add the resolver for each Query that is defined for the GraphQL Server</p>
+<h2><strong>GraphQL Query Language</strong></h2>
+<p>GraphQL query Language is used to query data from GraphQL Middleware.</p>
+<p>&nbsp;</p>
+<p>Given below is the sample GraphQL Query</p>
+<pre>
+query getEmployeeDetails {
+  employee(name: &quot;Mayank&quot;) {
+&nbsp;   name
+    id
+  }
+}
+</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
