@@ -12,4 +12,4 @@ query getEmployeeData {
     designation
     id
   }
-}
+}   
