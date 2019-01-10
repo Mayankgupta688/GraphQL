@@ -1,5 +1,5 @@
 {
-  "name": "graphql-server",
+  "name": "graphql-dummy-server",
   "version": "1.0.0",
   "description": "Sample GraphQL Server",
   "main": "server.js",
