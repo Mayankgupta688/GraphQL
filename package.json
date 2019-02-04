@@ -4,8 +4,9 @@
   "description": "Sample GraphQL Server",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start-node": "node server.js",
+    "start-json-server": "json-server --watch ./data/employeeDetails.json",
+    "start": "npm-run-all --parallel start-node start-json-server"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,8 @@
     "express": "^4.16.4",
     "express-graphql": "^0.7.1",
     "graphql": "^14.0.2"
+  },
+  "devDependencies": {
+    "json-server": "^0.14.2"
   }
 }

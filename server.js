@@ -1,22 +1,19 @@
-var express_graphql = require("express-graphql");
 var express = require("express");
-var app = express();
-
+var express_graphql = require("express-graphql");
+var dataResolver = require("./resolver/dataResolver");
 var schema = require("./schema/schemaBuilder").getApiSchema();
 
-var dataResolver = require("./resolver/dataResolver");
-
-var root = {
-    message: () => "Hello World",
-    employee: dataResolver.getEmployee,
-    employees: dataResolver.getEmployees,
-    employeeList: dataResolver.employeeList,
-    updateEmployee: dataResolver.updateEmployee
-}
+var app = express();
 
 app.use("/graphql", express_graphql({
     schema: schema,
-    rootValue: root,
+    rootValue: {
+        message: () => "Hello World",
+        employee: dataResolver.getEmployee,
+        employees: dataResolver.getEmployees,
+        employeeList: dataResolver.employeeList,
+        updateEmployee: dataResolver.updateEmployee
+    },
     graphiql: true
 }));
 
