@@ -15,8 +15,9 @@
             }
             type Employee {
                 id: Int,
-                name: String
-                avatar: String
+                name: String,
+                avatar: String,
+                createdAt: String
             }
         `);
     }

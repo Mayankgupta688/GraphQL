@@ -4,6 +4,8 @@ var dataResolver = require("./resolver/dataResolver");
 var schema = require("./schema/schemaBuilder").getApiSchema();
 
 var app = express();
+const cors = require('cors');
+app.use(cors());
 
 app.use("/graphql", express_graphql({
     schema: schema,
